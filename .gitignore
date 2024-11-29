@@ -1,3 +1,8 @@
+#ignore AoC inputs b/c of copyright..
+src/main/resources/**
+#(except day00.txt)
+!src/main/resources/day00.txt
+
 # macOS
 .DS_Store
 
@@ -30,3 +35,4 @@ metals.sbt
 .idea
 .idea_modules
 /.worksheet/
+
