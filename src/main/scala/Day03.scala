@@ -1,5 +1,3 @@
-import scala.compiletime.ops.boolean
-
 def solutionOne(input: String): Long = {
   val re = """mul\((\d+{3}),(\d+{3})\)""".r
 
@@ -37,6 +35,8 @@ object Day03 {
 
     val result2 = solutionTwo(raw)
     println(result2)
+
+    val test: Option[Int] = "silvan".toIntOption
 
   }
 
