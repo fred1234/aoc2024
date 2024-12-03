@@ -1,4 +1,8 @@
 [![Scala CI](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml/badge.svg?branch=main)](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml)
+[![codecov](https://codecov.io/github/fred1234/aoc2024/branch/main/graph/badge.svg?token=RHVBVAODHM)](https://codecov.io/github/fred1234/aoc2024)
+
+
+
 
 # AoC 2024
 
