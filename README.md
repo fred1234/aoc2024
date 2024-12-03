@@ -1,3 +1,5 @@
+[![Scala CI](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml/badge.svg?branch=main)](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml)
+
 # AoC 2024
 
 ## Inputs
