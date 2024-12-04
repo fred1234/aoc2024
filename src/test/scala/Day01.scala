@@ -1,6 +1,3 @@
-// For more information on writing tests, see
-// https://scalameta.org/munit/docs/getting-started.html
-
 import Day01.parseLine
 import Day01.puzzleOne
 import Day01.puzzleTwo

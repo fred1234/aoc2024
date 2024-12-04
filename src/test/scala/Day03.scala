@@ -1,6 +1,3 @@
-// For more information on writing tests, see
-// https://scalameta.org/munit/docs/getting-started.html
-
 class Day03Test extends munit.FunSuite {
 
   val small_part_one = """xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"""

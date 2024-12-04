@@ -1,5 +1,3 @@
-// For more information on writing tests, see
-// https://scalameta.org/munit/docs/getting-started.html
 import Day02.parseLine
 import Day02.pairs
 import Day02.increases

@@ -1,5 +1,3 @@
-// For more information on writing tests, see
-// https://scalameta.org/munit/docs/getting-started.html
 import Day04Part01.solvePart1
 import Day04Part01.getHorizontalLines
 import Day04Part01.getVerticalLines

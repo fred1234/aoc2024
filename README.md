@@ -1,15 +1,34 @@
-[![Scala CI](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml/badge.svg?branch=main)](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml)
-[![codecov](https://codecov.io/github/fred1234/aoc2024/branch/main/graph/badge.svg?token=RHVBVAODHM)](https://codecov.io/github/fred1234/aoc2024)
-
-
-
-
 # AoC 2024
 
-## Inputs
+[![AoC](https://img.shields.io/badge/AoC-2024-blue)](https://adventofcode.com/2024)
+[![Scala CI](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml/badge.svg?branch=main)](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml)
+<picture>
+<img alt="Tests" src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/4d7cf5c148b28b1df68c8f45353bddcc7741e64a/aoc2024-junit-tests.json">
+</picture>
+<picture>
+<img alt="Coverage" src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/4d7cf5c148b28b1df68c8f45353bddcc7741e64a/aoc2024-cobertura-coverage.json">
+</picture>
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mariotacke/advent-of-code-2021/master/LICENSE)
+[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fred1234/aoc2024/main/.github/badges/completion.json)](https://github.com/mariotacke/advent-of-code-2021)
 
-Save the input for a given puzzle under `./src/main/resources/` (e.g. for Day3, save it as `src/main/resources/day03.txt`)
+## Puzzle Inputs
+
+Save the input for a given puzzle under `./src/main/resources/` (e.g. for Day3, save it as `./src/main/resources/day03.txt`)
 
 ## Usage
 
 This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+
+## Days
+
+| Day | Title              |                                      |                                       |        |
+| --- | ------------------ | ------------------------------------ | ------------------------------------- | ------ |
+| 1   | Historian Hysteria | [Code](./src/main/scala/Day01.scala) | [Tests](./src/test/scala/Day01.scala) | ⭐️⭐️ |
+| 2   | Red-Nosed Reports  | [Code](./src/main/scala/Day02.scala) | [Tests](./src/test/scala/Day02.scala) | ⭐️⭐️ |
+| 3   | Mull It Over       | [Code](./src/main/scala/Day03.scala) | [Tests](./src/test/scala/Day03.scala) | ⭐️⭐️ |
+| 4   | Ceres Search       | [Code](./src/main/scala/Day04.scala) | [Tests](./src/test/scala/Day04.scala) | ⭐️⭐️ |
+
+## Visit
+
+- http://adventofcode.com/2024
+- https://www.scala-lang.org
