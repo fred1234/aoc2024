@@ -8,8 +8,10 @@
 <picture>
 <img alt="Coverage" src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/4d7cf5c148b28b1df68c8f45353bddcc7741e64a/aoc2024-cobertura-coverage.json">
 </picture>
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mariotacke/advent-of-code-2021/master/LICENSE)
-[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fred1234/aoc2024/main/.github/badges/completion.json)](https://github.com/mariotacke/advent-of-code-2021)
+[![Completion Status](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mariotacke/advent-of-code-2021/master/LICENSE)
+<picture>
+<img alt="Coverage" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fred1234/aoc2024/main/.github/badges/completion.json">
+</picture>
 
 ## Puzzle Inputs
 
