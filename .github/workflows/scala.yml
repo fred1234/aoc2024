@@ -1,5 +1,4 @@
 name: Scala CI
-
 on:
   push:
     branches: [ "main" ]
@@ -31,9 +30,8 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Archive code coverage results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-pages-artifact@v3
       with:
-        name: code-coverage-report
         path: target/scala-3.5.2/scoverage-report/
     - name: Generate Badges
       uses: gaelgirodon/ci-badges-action@v1
@@ -57,5 +55,3 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
-      with:
-        artifact_name: "code-coverage-report"
