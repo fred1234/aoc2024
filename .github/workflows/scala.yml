@@ -40,3 +40,22 @@ jobs:
       with:
         gist-id: 1b25c5fd1b9d750267c19f180337ec22
         token: ${{ secrets.GIST_TOKEN }}
+
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      with:
+        artifact_name: "code-coverage-report"
