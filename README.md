@@ -32,5 +32,5 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 
 ## Visit
 
-- http://adventofcode.com/2024
-- https://www.scala-lang.org
+- [AoC-2024](http://adventofcode.com/2024)
+- [scala-lang](https://www.scala-lang.org)
