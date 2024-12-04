@@ -41,8 +41,8 @@ object Day04Part01 {
   def generateAllIndices(height: Int, width: Int): List[IndexedSeq[(Int, Int)]] = {
 
     val allStartsFromCol0 = for r <- 0 until height yield (r, 0)
-    val allStartsFromRow1 = for c <- 0 until width yield (0, c)
-    val allStarts = (allStartsFromCol0 ++ allStartsFromRow1).toSet
+    val allStartsFromRow0 = for c <- 0 until width yield (0, c)
+    val allStarts = (allStartsFromCol0 ++ allStartsFromRow0).toSet
 
     allStarts.map { case (startRow: Int, startCol: Int) =>
       for {

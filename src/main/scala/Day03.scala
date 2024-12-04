@@ -12,16 +12,15 @@ def solutionOne(input: String): Long = {
 def solutionTwo(input: String): Long = {
   val re = """do\(\)|don't\(\)|mul\((\d+{3}),(\d+{3})\)""".r
   case class Acc(enabled: Boolean = true, value: Long = 0L)
-
   val result2: Acc = re
     .findAllIn(input)
-    .foldLeft(z = Acc())(({
+    .foldLeft(z = Acc()) {
       case (a @ Acc(true, v), s"mul(${first},${last})")  => a.copy(value = v + first.toLong * last.toLong)
       case (a @ Acc(false, v), s"mul(${first},${last})") => a // case (a, _)
       case (a, "do()")                                   => a.copy(enabled = true)
       case (a, "don't()")                                => a.copy(enabled = false)
       case _                                             => ???
-    }))
+    }
   result2.value
 }
 
