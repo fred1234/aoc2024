@@ -3,8 +3,9 @@ import Day04Part02.solvePart2
 object Day04 {
 
   def main(args: Array[String]): Unit = {
-    val raw: Array[String] = os.read.lines(os.pwd / "src" / "main" / "resources" / "day04.txt").toArray
-    val input: Array[Array[Char]] = raw.map(_.toArray)
+    val input: Array[Array[Char]] =
+      os.read.lines(os.pwd / "src" / "main" / "resources" / "day04.txt").toArray.map(_.toArray)
+
     println(solvePart1(input))
     println(solvePart2(input))
   }
