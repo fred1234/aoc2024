@@ -59,12 +59,9 @@ object Day05 {
 
   def repair(updateReverse: List[Int], pageOrderingRules: Map[Int, Set[Int]]): List[Int] = {
 
-    var repaired = false
-    var repairedUpdate = updateReverse
-    while (!repaired) {
-
-      repairedUpdate = repair(repairedUpdate, List())
-      repaired = isValid(repairedUpdate, pageOrderingRules)
+    def loop(repairedUpdate: List[Int]): List[Int] = {
+      if (isValid(repairedUpdate, pageOrderingRules)) repairedUpdate
+      else loop(repair(repairedUpdate, List()))
     }
 
     def repair(updates: List[Int], acc: List[Int]): List[Int] = {
@@ -96,7 +93,7 @@ object Day05 {
       }
     }
 
-    repairedUpdate.reverse
+    loop(updateReverse).reverse
 
   }
 
