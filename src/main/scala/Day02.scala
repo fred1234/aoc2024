@@ -7,7 +7,7 @@ object Day02 {
   def decreases(input: List[(Int, Int)]): Boolean = input.forall(_ > _)
   def inBounds(input: List[(Int, Int)]): Boolean = {
     val diffs = input.map((v1, v2) => math.abs(v1 - v2))
-    (diffs.toSet -- Set(0, 1, 2, 3)).isEmpty
+    (diffs.toSet -- Set(1, 2, 3)).isEmpty
   }
   def safe(input: List[Int]): Boolean = {
     val paired = pairs(input)
