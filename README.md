@@ -3,9 +3,9 @@
 [![AoC](https://img.shields.io/badge/AoC-2024-blue)](https://adventofcode.com/2024)
 [![Scala CI](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml/badge.svg?branch=main)](https://github.com/fred1234/aoc2024/actions/workflows/scala.yml)
 <picture>
-<img alt="Tests" src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/4d7cf5c148b28b1df68c8f45353bddcc7741e64a/aoc2024-junit-tests.json">
+<img alt="Tests" src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/aoc2024-junit-tests.json">
 </picture>
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/4d7cf5c148b28b1df68c8f45353bddcc7741e64a/aoc2024-cobertura-coverage.json)](https://fred1234.github.io/aoc2024/)
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/fred1234/1b25c5fd1b9d750267c19f180337ec22/raw/aoc2024-cobertura-coverage.json)](https://fred1234.github.io/aoc2024/)
 [![Completion Status](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mariotacke/advent-of-code-2021/master/LICENSE)
 <picture>
 <img alt="Completion" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fred1234/aoc2024/main/.github/badges/completion.json">
