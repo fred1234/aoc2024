@@ -1,4 +1,3 @@
-import javax.swing.text.StyledEditorKit.BoldAction
 import Day05Parsers.parseInput
 
 object Day05Parsers {
@@ -43,7 +42,9 @@ object Day05 {
 
   }
 
-  def repair(updateReverse: List[Int], pageOrderingRules: Map[Int, Set[Int]]): List[Int] = {
+  def repair(update: List[Int], pageOrderingRules: Map[Int, Set[Int]]): List[Int] = {
+
+    val updateReverse = update.reverse
 
     def repair(updates: List[Int], acc: List[Int] = List.empty): List[Int] = updates match {
       case head :: next => {
@@ -74,26 +75,24 @@ object Day05 {
 
   def middleSum(input: List[List[Int]]): Int = input.map { update => update(update.size / 2) }.sum
 
-  def solvePart1(rawInput: String) = {
-    val (pageOrderingRules, pageToProduce) = parseInput(rawInput)
-    val valids = pageToProduce.filter(isValid(_, pageOrderingRules))
-    middleSum(valids)
+  def solvePart1(pageOrderingRules: Map[Int, Set[Int]], pageToProduce: List[List[Int]]) = {
+    val valides = pageToProduce.filter(isValid(_, pageOrderingRules))
+    middleSum(valides)
   }
 
-  def solvePart2(rawInput: String) = {
-    val (pageOrderingRules, pageToProduce) = parseInput(rawInput)
-    val valids = pageToProduce.filter(isValid(_, pageOrderingRules))
-    val notValids: List[List[Int]] = (pageToProduce.toSet -- valids.toSet).toList
-    val repaired: List[List[Int]] = notValids.map(update => repair(update.reverse, pageOrderingRules))
+  def solvePart2(pageOrderingRules: Map[Int, Set[Int]], pageToProduce: List[List[Int]]) = {
+    val valides = pageToProduce.filter(isValid(_, pageOrderingRules))
+    val notValides: List[List[Int]] = (pageToProduce.toSet -- valides.toSet).toList
+    val repaired: List[List[Int]] = notValides.map(update => repair(update.reverse, pageOrderingRules))
     middleSum(repaired)
   }
 
   def main(args: Array[String]): Unit = {
     val raw = os.read(os.pwd / "src" / "main" / "resources" / "day05.txt")
+    val (pageOrderingRules, pageToProduce) = parseInput(raw)
 
-    println(solvePart1(raw))
-    println(solvePart2(raw))
-
+    println(solvePart1(pageOrderingRules, pageToProduce))
+    println(solvePart2(pageOrderingRules, pageToProduce))
   }
 
 }
