@@ -14,14 +14,12 @@ object Day02 {
     (increases(paired) || decreases(paired)) && inBounds(paired)
   }
 
-  def tolerate(input: List[Int]): Boolean = {
-    input.indices.exists(index => safe(input.patch(index, Nil, 1)))
-  }
+  def tolerate(input: List[Int]): Boolean = input.indices.exists(index => safe(input.patch(index, Nil, 1)))
 
   def main(args: Array[String]): Unit = {
 
     val raw: List[String] = os.read.lines(os.pwd / "src" / "main" / "resources" / "day02.txt").toList
-    val input = raw.map(parseLine)
+    val input: List[List[Int]] = raw.map(parseLine)
 
     val solution1 = input.count(safe)
     println(solution1)

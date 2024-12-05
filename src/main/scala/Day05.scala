@@ -26,7 +26,9 @@ object Day05Parsers {
 }
 object Day05 {
 
-  def isValid(updateReverse: List[Int], pageOrderingRules: Map[Int, Set[Int]]): Boolean = {
+  def isValid(update: List[Int], pageOrderingRules: Map[Int, Set[Int]]): Boolean = {
+    val updateReverse = update.reverse
+
     def isValidAcc(updateReverse: List[Int], acc: Boolean): Boolean = {
       updateReverse match {
         case head :: next =>
@@ -70,20 +72,27 @@ object Day05 {
 
   }
 
-  def main(args: Array[String]): Unit = {
-    val raw = os.read(os.pwd / "src" / "main" / "resources" / "day05.txt")
-    val (pageOrderingRules, pageToProduce) = parseInput(raw)
+  def middleSum(input: List[List[Int]]): Int = input.map { update => update(update.size / 2) }.sum
 
-    val valids = pageToProduce.filter(update => isValid(update.reverse, pageOrderingRules))
-    val res = valids.map { update => update(update.size / 2) }.sum
-    println(res)
+  def solvePart1(rawInput: String) = {
+    val (pageOrderingRules, pageToProduce) = parseInput(rawInput)
+    val valids = pageToProduce.filter(isValid(_, pageOrderingRules))
+    middleSum(valids)
+  }
 
-//part2
-//not valid
+  def solvePart2(rawInput: String) = {
+    val (pageOrderingRules, pageToProduce) = parseInput(rawInput)
+    val valids = pageToProduce.filter(isValid(_, pageOrderingRules))
     val notValids: List[List[Int]] = (pageToProduce.toSet -- valids.toSet).toList
     val repaired: List[List[Int]] = notValids.map(update => repair(update.reverse, pageOrderingRules))
-    val res2 = repaired.map { update => update(update.size / 2) }.sum
-    println(res2)
+    middleSum(repaired)
+  }
+
+  def main(args: Array[String]): Unit = {
+    val raw = os.read(os.pwd / "src" / "main" / "resources" / "day05.txt")
+
+    println(solvePart1(raw))
+    println(solvePart2(raw))
 
   }
 

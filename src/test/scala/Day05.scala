@@ -61,4 +61,18 @@ class Day05Test extends munit.FunSuite {
     assertEquals(42, 42)
   }
 
+  test("puzzle is solved correctly for part1") {
+
+    val obtainedPageOrderingRules: Map[Int, Set[Int]] = parseOrderingRules(input = List("47|53", "97|13", "97|61"))
+
+    val expectedPageOrderingRules: Map[Int, Set[Int]] = Map(
+      97 -> Set(13, 61),
+      47 -> Set(53)
+    )
+
+    val expectedPageToProduce = List(List(75, 47, 61, 53, 29), List(97, 61, 53, 29, 13))
+
+    assertEquals(42, 42)
+  }
+
 }
