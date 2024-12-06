@@ -6,12 +6,14 @@ object Day06 {
     case Obstacle extends Type('#')
     case Empty extends Type('.')
     case Visited extends Type('X')
-    case PlayerUP extends Type('^')
-    case PlayerRIGHT extends Type('>')
-    case PlayerDOWN extends Type('v')
-    case PlayerLEFT extends Type('<')
 
-  type Puzzle = Vector[Vector[Type]]
+  enum Player(val symbol: Char):
+    case PlayerUP extends Player('^')
+    case PlayerRIGHT extends Player('>')
+    case PlayerDOWN extends Player('v')
+    case PlayerLEFT extends Player('<')
+
+  type Puzzle = Vector[Vector[Type | Player]]
 
   def main(args: Array[String]): Unit = {
     val raw = os.read.lines(os.pwd / "src" / "main" / "resources" / "day06.txt").toVector
@@ -20,10 +22,10 @@ object Day06 {
       case '#' => Type.Obstacle
       case '.' => Type.Empty
       case 'X' => Type.Visited
-      case '^' => Type.PlayerUP
-      case '<' => Type.PlayerLEFT
-      case '>' => Type.PlayerRIGHT
-      case 'v' => Type.PlayerDOWN
+      case '^' => Player.PlayerUP
+      case '<' => Player.PlayerLEFT
+      case '>' => Player.PlayerRIGHT
+      case 'v' => Player.PlayerDOWN
     }).toVector)
 
     // val puzzle: Puzzle = Vector(
@@ -46,7 +48,9 @@ object Day06 {
       x >= 0 && y >= 0 && x < width && y < height
 
     def play(puzzle: Puzzle, posX: Int, posY: Int, steps: Int): Int = {
-      val player = puzzle(posY)(posX)
+      val player = puzzle(posY)(posX) match
+        case Type      => ???
+        case s: Player => s
 
       val (nx, ny) = nextPosition(posX, posY, player)
       if (!inBounds(nx, ny)) return steps + 1
@@ -59,22 +63,22 @@ object Day06 {
     play(puzzle, x, y, 0)
   }
 
-  def nextPosition(x: Int, y: Int, player: Type): (Int, Int) = player match
-    case Type.PlayerUP    => (x, y - 1)
-    case Type.PlayerRIGHT => (x + 1, y)
-    case Type.PlayerDOWN  => (x, y + 1)
-    case Type.PlayerLEFT  => (x - 1, y)
+  def nextPosition(x: Int, y: Int, player: Player): (Int, Int) = player match
+    case Player.PlayerUP    => (x, y - 1)
+    case Player.PlayerRIGHT => (x + 1, y)
+    case Player.PlayerDOWN  => (x, y + 1)
+    case Player.PlayerLEFT  => (x - 1, y)
 
-  def changeDirection(p: Puzzle, player: Type): Puzzle = {
+  def changeDirection(p: Puzzle, player: Player): Puzzle = {
     val newDir = player match
-      case Type.PlayerUP    => Type.PlayerRIGHT
-      case Type.PlayerRIGHT => Type.PlayerDOWN
-      case Type.PlayerDOWN  => Type.PlayerLEFT
-      case Type.PlayerLEFT  => Type.PlayerUP
+      case Player.PlayerUP    => Player.PlayerRIGHT
+      case Player.PlayerRIGHT => Player.PlayerDOWN
+      case Player.PlayerDOWN  => Player.PlayerLEFT
+      case Player.PlayerLEFT  => Player.PlayerUP
     updatePlayer(p, newDir)
   }
 
-  def updatePlayer(p: Puzzle, newDir: Type): Puzzle = {
+  def updatePlayer(p: Puzzle, newDir: Player): Puzzle = {
     val (x, y) = findPlayer(p)
     p.updated(y, p(y).updated(x, newDir))
   }
@@ -85,14 +89,20 @@ object Day06 {
       y: Int,
       nx: Int,
       ny: Int,
-      player: Type
+      player: Player
   ): Puzzle = {
     val updated = p.updated(y, p(y).updated(x, Type.Visited))
     updated.updated(ny, updated(ny).updated(nx, player))
   }
 
   def getString(p: Puzzle): String = {
-    p.map(_.map(_.symbol).mkString).mkString("\n")
+    p.map(
+      _.map(e =>
+        e match
+          case t: Type   => t.symbol
+          case s: Player => s.symbol
+      ).mkString
+    ).mkString("\n")
   }
 
   def findPlayer(p: Puzzle) = {
@@ -101,13 +111,13 @@ object Day06 {
       (cell, x) <- row.zipWithIndex
     } yield {
       cell match
-        case Type.Obstacle    => None
-        case Type.Empty       => None
-        case Type.Visited     => None
-        case Type.PlayerUP    => Some((x, y))
-        case Type.PlayerRIGHT => Some((x, y))
-        case Type.PlayerDOWN  => Some((x, y))
-        case Type.PlayerLEFT  => Some((x, y))
+        case Type.Obstacle      => None
+        case Type.Empty         => None
+        case Type.Visited       => None
+        case Player.PlayerUP    => Some((x, y))
+        case Player.PlayerRIGHT => Some((x, y))
+        case Player.PlayerDOWN  => Some((x, y))
+        case Player.PlayerLEFT  => Some((x, y))
     }
     x.flatten.head // there must be one player
   }
