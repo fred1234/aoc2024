@@ -32,7 +32,6 @@ object Day06 {
     //   Vector(Type.Empty, Type.Empty, Type.Empty)
     // )
 
-    println(getString(puzzle))
     val result = play(puzzle)
     println(result)
 
@@ -41,64 +40,55 @@ object Day06 {
   def play(puzzle: Puzzle): Int = {
     val height = puzzle.size
     val width = puzzle(0).size
+    val (x, y) = findPlayer(puzzle) // do it once
 
-    def play(puzzle: Puzzle, numStep: Int): Int = {
-      val (x, y) = findPlayer(puzzle)
-      val player = puzzle(y)(x)
+    def inBounds(x: Int, y: Int): Boolean =
+      x >= 0 && y >= 0 && x < width && y < height
 
-      // ending Conditions
-      player match
-        case Type.PlayerUP if y == 0                               => numStep + 1
-        case Type.PlayerUP if puzzle(y - 1)(x) == Type.Obstacle    => play(setRight(puzzle), numStep)
-        case Type.PlayerUP if puzzle(y - 1)(x) == Type.Empty       => play(goUp(puzzle), numStep + 1)
-        case Type.PlayerUP if puzzle(y - 1)(x) == Type.Visited     => play(goUp(puzzle), numStep)
-        case Type.PlayerRIGHT if x == width - 1                    => numStep + 1
-        case Type.PlayerRIGHT if puzzle(y)(x + 1) == Type.Obstacle => play(setDown(puzzle), numStep)
-        case Type.PlayerRIGHT if puzzle(y)(x + 1) == Type.Empty    => play(goRight(puzzle), numStep + 1)
-        case Type.PlayerRIGHT if puzzle(y)(x + 1) == Type.Visited  => play(goRight(puzzle), numStep)
-        case Type.PlayerDOWN if y == height - 1                    => numStep + 1
-        case Type.PlayerDOWN if puzzle(y + 1)(x) == Type.Obstacle  => play(setLeft(puzzle), numStep)
-        case Type.PlayerDOWN if puzzle(y + 1)(x) == Type.Empty     => play(goDown(puzzle), numStep + 1)
-        case Type.PlayerDOWN if puzzle(y + 1)(x) == Type.Visited   => play(goDown(puzzle), numStep)
-        case Type.PlayerLEFT if x == 0                             => numStep + 1
-        case Type.PlayerLEFT if puzzle(y)(x - 1) == Type.Obstacle  => play(setUp(puzzle), numStep)
-        case Type.PlayerLEFT if puzzle(y)(x - 1) == Type.Empty     => play(goLeft(puzzle), numStep + 1)
-        case Type.PlayerLEFT if puzzle(y)(x - 1) == Type.Visited   => play(goLeft(puzzle), numStep)
+    def play(puzzle: Puzzle, posX: Int, posY: Int, steps: Int): Int = {
+      val player = puzzle(posY)(posX)
 
+      val (nx, ny) = nextPosition(posX, posY, player)
+      if (!inBounds(nx, ny)) return steps + 1
+
+      puzzle(ny)(nx) match
+        case Type.Obstacle => play(changeDirection(puzzle, player), posX, posY, steps)
+        case Type.Empty    => play(movePlayer(puzzle, posX, posY, nx, ny, player), nx, ny, steps + 1)
+        case Type.Visited  => play(movePlayer(puzzle, posX, posY, nx, ny, player), nx, ny, steps)
     }
-
-    play(puzzle, 0)
-
+    play(puzzle, x, y, 0)
   }
 
-  def setRight(p: Puzzle): Puzzle = { setDir(p, Type.PlayerRIGHT) }
-  def setLeft(p: Puzzle): Puzzle = { setDir(p, Type.PlayerLEFT) }
-  def setDown(p: Puzzle): Puzzle = { setDir(p, Type.PlayerDOWN) }
-  def setUp(p: Puzzle): Puzzle = { setDir(p, Type.PlayerUP) }
-  def setDir(p: Puzzle, dir: Type) = {
-    val (x, y) = findPlayer(p)
-    p.updated(y, p(y).updated(x, dir))
+  def nextPosition(x: Int, y: Int, player: Type): (Int, Int) = player match
+    case Type.PlayerUP    => (x, y - 1)
+    case Type.PlayerRIGHT => (x + 1, y)
+    case Type.PlayerDOWN  => (x, y + 1)
+    case Type.PlayerLEFT  => (x - 1, y)
+
+  def changeDirection(p: Puzzle, player: Type): Puzzle = {
+    val newDir = player match
+      case Type.PlayerUP    => Type.PlayerRIGHT
+      case Type.PlayerRIGHT => Type.PlayerDOWN
+      case Type.PlayerDOWN  => Type.PlayerLEFT
+      case Type.PlayerLEFT  => Type.PlayerUP
+    updatePlayer(p, newDir)
   }
 
-  def goUp(p: Puzzle): Puzzle = {
+  def updatePlayer(p: Puzzle, newDir: Type): Puzzle = {
     val (x, y) = findPlayer(p)
-    val n = p.updated(y, p(y).updated(x, Type.Visited))
-    n.updated(y - 1, n(y - 1).updated(x, Type.PlayerUP))
+    p.updated(y, p(y).updated(x, newDir))
   }
-  def goDown(p: Puzzle): Puzzle = {
-    val (x, y) = findPlayer(p)
-    val n = p.updated(y, p(y).updated(x, Type.Visited))
-    n.updated(y + 1, n(y + 1).updated(x, Type.PlayerDOWN))
-  }
-  def goLeft(p: Puzzle): Puzzle = {
-    val (x, y) = findPlayer(p)
-    val n = p.updated(y, p(y).updated(x, Type.Visited))
-    n.updated(y, n(y).updated(x - 1, Type.PlayerLEFT))
-  }
-  def goRight(p: Puzzle): Puzzle = {
-    val (x, y) = findPlayer(p)
-    val n = p.updated(y, p(y).updated(x, Type.Visited))
-    n.updated(y, n(y).updated(x + 1, Type.PlayerRIGHT))
+
+  def movePlayer(
+      p: Puzzle,
+      x: Int,
+      y: Int,
+      nx: Int,
+      ny: Int,
+      player: Type
+  ): Puzzle = {
+    val updated = p.updated(y, p(y).updated(x, Type.Visited))
+    updated.updated(ny, updated(ny).updated(nx, player))
   }
 
   def getString(p: Puzzle): String = {
