@@ -26,7 +26,6 @@ object Day06 {
     // part2
     println(part2(puzzle))
   }
-
   def part2(puzzle: Puzzle): Int = {
     putObstacles(puzzle).count(hasLoop)
   }
