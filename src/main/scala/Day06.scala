@@ -141,8 +141,6 @@ object Day06 {
   def getPlayer(posX: Int, posY: Int, puzzle: Puzzle): Player = {
     puzzle(posY)(posX) match
       case s: Player => s
-      case Type =>
-        ???
   }
 
   def findPlayer(p: Puzzle) = {
