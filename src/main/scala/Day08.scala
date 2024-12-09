@@ -25,12 +25,12 @@ object Day08 {
       "............"
     )
 
-    val height = smallInput.size
-    val width = smallInput(0).size
+    val height = raw.size
+    val width = raw(0).size
     println(height)
     println(width)
 
-    val world: List[Pos] = parse(smallInput)
+    val world: List[Pos] = parse(raw)
 
     println(solvePart1(world, height, width))
 
@@ -68,10 +68,6 @@ object Day08 {
       // now we collect the possible locations.
       val allAntinodesForAntenna: Set[Pos] = listOfPos.flatMap { pos =>
         allDiffs.flatMap { diff =>
-
-          if ((pos + diff).x == 5 && (pos + diff).y == 4) {
-            println("panic")
-          }
 
           val added: Set[Pos] = {
             pos + diff match {
