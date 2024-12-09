@@ -25,8 +25,10 @@ object Day08 {
       "............"
     )
 
-    val height = raw.size
-    val width = raw(0).size
+    val height = smallInput.size
+    val width = smallInput(0).size
+    println(height)
+    println(width)
 
     val world: List[Pos] = parse(smallInput)
 
@@ -39,7 +41,7 @@ object Day08 {
       y <- raw.indices
       x <- raw(0).indices
     } yield {
-      Pos(x, y, raw(y)(x))
+      Pos(x, y, raw(y).charAt(x))
     }
   }.toList
 
@@ -47,6 +49,9 @@ object Day08 {
 
     val allAntennas: List[Pos] = world.filter(_.symbol != '.')
     val groupedByAntenna: Map[Char, Set[Pos]] = allAntennas.groupBy(_.symbol).mapValues(_.toSet).toMap
+
+    println("groupedByAntenna")
+    groupedByAntenna.foreach(println)
 
     val allAntinodes = groupedByAntenna.map { (antenna, listOfPos) =>
       // for a give antenna-type, here we have all the differences of all combinations
@@ -62,21 +67,26 @@ object Day08 {
       // now we collect the possible locations.
       val allAntinodesForAntenna: Set[Pos] = listOfPos.flatMap { pos =>
         allDiffs.flatMap { diff =>
+
+          if ((pos + diff).x == 5 && (pos + diff).y == 4) {
+            println("panic")
+          }
+
           val added: Set[Pos] = {
             pos + diff match {
-              case Pos(x, y, _) if (x > width || x < 0)  => Set()
-              case Pos(x, y, _) if (y > height || y < 0) => Set()
-              case p if (listOfPos.contains(p))          => Set()
-              case p                                     => Set(p)
+              case Pos(x, _, _) if (x >= width || x < 0)  => Set()
+              case Pos(_, y, _) if (y >= height || y < 0) => Set()
+              case p if (listOfPos.contains(p))           => Set()
+              case p                                      => Set(p.copy(symbol = '#'))
             }
           }
 
           val subtracted: Set[Pos] = {
             pos - diff match {
-              case Pos(x, y, _) if (x > width || x < 0)  => Set()
-              case Pos(x, y, _) if (y > height || y < 0) => Set()
-              case p if (listOfPos.contains(p))          => Set()
-              case p                                     => Set(p)
+              case Pos(x, y, _) if (x >= width || x < 0)  => Set()
+              case Pos(x, y, _) if (y >= height || y < 0) => Set()
+              case p if (listOfPos.contains(p))           => Set()
+              case p                                      => Set(p.copy(symbol = '#'))
             }
           }
 
@@ -88,7 +98,8 @@ object Day08 {
       allAntinodesForAntenna
     }
 
-    allAntinodes.foreach(println)
+    println("Antinodes")
+    allAntinodes.flatten.toSet.foreach(println)
 
     allAntinodes.flatten.toSet.size
 
