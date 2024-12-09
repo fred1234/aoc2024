@@ -28,6 +28,8 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 | 3   | Mull It Over       | [Code](./src/main/scala/Day03.scala) | [Tests](./src/test/scala/Day03.scala) | ⭐️⭐️ |
 | 4   | Ceres Search       | [Code](./src/main/scala/Day04.scala) | [Tests](./src/test/scala/Day04.scala) | ⭐️⭐️ |
 | 5   | Print Queue        | [Code](./src/main/scala/Day05.scala) | [Tests](./src/test/scala/Day05.scala) | ⭐️⭐️ |
+| 6   |                    |                                      |                                       |        |
+| 7   | Bridge Repair      | [Code](./src/main/scala/Day07.scala) | [Tests](./src/test/scala/Day07.scala) | ⭐️⭐️ |
 
 ## Visit
 
