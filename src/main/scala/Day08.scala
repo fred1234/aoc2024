@@ -48,6 +48,7 @@ object Day08 {
   def solvePart1(world: List[Pos], height: Int, width: Int) = {
 
     val allAntennas: List[Pos] = world.filter(_.symbol != '.')
+    val allAntennaCoordinates: Set[(Int, Int)] = allAntennas.map { case Pos(x, y, _) => (x, y) }.toSet
     val groupedByAntenna: Map[Char, Set[Pos]] = allAntennas.groupBy(_.symbol).mapValues(_.toSet).toMap
 
     println("groupedByAntenna")
@@ -74,19 +75,19 @@ object Day08 {
 
           val added: Set[Pos] = {
             pos + diff match {
-              case Pos(x, _, _) if (x >= width || x < 0)  => Set()
-              case Pos(_, y, _) if (y >= height || y < 0) => Set()
-              case p if (listOfPos.contains(p))           => Set()
-              case p                                      => Set(p.copy(symbol = '#'))
+              case Pos(x, _, _) if (x >= width || x < 0)             => Set()
+              case Pos(_, y, _) if (y >= height || y < 0)            => Set()
+              case p if (allAntennaCoordinates.contains((p.x, p.y))) => Set()
+              case p                                                 => Set(p.copy(symbol = '#'))
             }
           }
 
           val subtracted: Set[Pos] = {
             pos - diff match {
-              case Pos(x, y, _) if (x >= width || x < 0)  => Set()
-              case Pos(x, y, _) if (y >= height || y < 0) => Set()
-              case p if (listOfPos.contains(p))           => Set()
-              case p                                      => Set(p.copy(symbol = '#'))
+              case Pos(x, y, _) if (x >= width || x < 0)             => Set()
+              case Pos(x, y, _) if (y >= height || y < 0)            => Set()
+              case p if (allAntennaCoordinates.contains((p.x, p.y))) => Set()
+              case p                                                 => Set(p.copy(symbol = '#'))
             }
           }
 
