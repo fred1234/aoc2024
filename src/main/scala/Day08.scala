@@ -12,27 +12,12 @@ object Day08 {
   def main(args: Array[String]): Unit = {
     val raw: List[String] = os.read.lines(os.pwd / "src" / "main" / "resources" / "day08.txt").toList
 
-    val smallInput: List[String] = List(
-      "............",
-      "........0...",
-      ".....0......",
-      ".......0....",
-      "....0.......",
-      "......A.....",
-      "............",
-      "............",
-      "........A...",
-      ".........A..",
-      "............",
-      "............"
-    )
+    val height = raw.size
+    val width = raw(0).size
 
-    val height = smallInput.size
-    val width = smallInput(0).size
+    val world: List[Pos] = parse(raw)
 
-    val world: List[Pos] = parse(smallInput)
-
-    // println(solvePart1(world, height, width))
+    println(solvePart1(world, height, width))
     println(solvePart2(world, height, width))
 
   }
@@ -51,9 +36,9 @@ object Day08 {
     val allAntennas: List[Pos] = world.filter(_.symbol != ".")
     val groupedByAntenna: Map[String, Set[Pos]] = allAntennas.groupBy(_.symbol).mapValues(_.toSet).toMap
 
-    val allAntinodes = groupedByAntenna.map { (antenna, listOfPos) =>
-      // for a give antenna-type, here we have all the differences of all combinations
+    val allAntinodes: Set[Pos] = groupedByAntenna.toSet.flatMap { (antenna, listOfPos) =>
 
+      // for a give antenna-type, here we have all the differences of all combinations
       val allDiffs: List[(Pos, Pos, Pos)] = listOfPos.toList
         .combinations(2)
         .map {
@@ -89,7 +74,7 @@ object Day08 {
       allAntinodesForAntenna
     }
 
-    allAntinodes.flatten.toSet.size
+    allAntinodes.size
 
   }
 
@@ -98,9 +83,9 @@ object Day08 {
     val allAntennas: List[Pos] = world.filter(_.symbol != ".")
     val groupedByAntenna: Map[String, Set[Pos]] = allAntennas.groupBy(_.symbol).mapValues(_.toSet).toMap
 
-    val allAntinodes = groupedByAntenna.map { (antenna, listOfPos) =>
-      // for a give antenna-type, here we have all the differences of all combinations
+    val allAntinodes = groupedByAntenna.toSet.flatMap { (antenna, listOfPos) =>
 
+      // for a give antenna-type, here we have all the differences of all combinations
       val allDiffs: List[(Pos, Pos, Pos)] = listOfPos.toList
         .combinations(2)
         .map {
@@ -112,14 +97,15 @@ object Day08 {
       // now we collect the possible locations.
       val allAntinodesForAntenna: Set[Pos] = listOfPos.flatMap { pos =>
         allDiffs.flatMap { case (diff, antennaA, antennaB) =>
-          val allSubtractedAntennaA = (1 to width).flatMap { case factor =>
-            antennaA.minusFactor(diff, factor) match {
+          val subtracted = (1 to width).flatMap { case factor =>
+            antennaA.plusFactor(diff, factor) match {
               case Pos(x, _, _) if (x >= width || x < 0)  => Set()
               case Pos(_, y, _) if (y >= height || y < 0) => Set()
               case p                                      => Set(p.copy(symbol = s"#"))
             }
           }.toSet
-          val allSubtractedAntennaB = (1 to width).flatMap { case factor =>
+
+          val added = (1 to width).flatMap { case factor =>
             antennaB.minusFactor(diff, factor) match {
               case Pos(x, _, _) if (x >= width || x < 0)  => Set()
               case Pos(_, y, _) if (y >= height || y < 0) => Set()
@@ -127,30 +113,14 @@ object Day08 {
             }
           }.toSet
 
-          val allAddedAntennaA = (1 to width).flatMap { case factor =>
-            antennaA.plusFactor(diff, factor) match {
-              case Pos(x, y, _) if (x >= width || x < 0)  => Set()
-              case Pos(x, y, _) if (y >= height || y < 0) => Set()
-              case p                                      => Set(p.copy(symbol = s"#"))
-            }
-          }.toSet
-          val allAddedAntennaB = (1 to width).flatMap { case factor =>
-            antennaB.plusFactor(diff, factor) match {
-              case Pos(x, y, _) if (x >= width || x < 0)  => Set()
-              case Pos(x, y, _) if (y >= height || y < 0) => Set()
-              case p                                      => Set(p.copy(symbol = s"#"))
-            }
-          }.toSet
-
-          allAddedAntennaA ++ allAddedAntennaB ++ allSubtractedAntennaA ++ allSubtractedAntennaB
-
+          added ++ subtracted
         }
 
       }
       allAntinodesForAntenna
     }
-    allAntinodes.flatten.toList.sortBy(_._1).foreach(println)
-    allAntinodes.flatten.size
+
+    allAntinodes.size
 
   }
 
