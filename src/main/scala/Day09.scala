@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 object Day09 {
 
   sealed trait Block
@@ -11,11 +12,13 @@ object Day09 {
 
   def main(args: Array[String]): Unit = {
     val raw: String = os.read(os.pwd / "src" / "main" / "resources" / "day09.txt")
-    // val raw = "2333133121414131402"
-    println(part1(raw)) // 800232992 was too low
+    println(part1(raw))
+    println(part2(raw))
+
   }
 
   def part1(raw: String) = checkSum(defrag(generateBlocks(parse(raw))))
+  def part2(raw: String) = checkSum(defragPart2(generateBlocks(parse(raw))))
 
   def parse(raw: String) = raw.map(_.toString.toInt).toList
 
@@ -41,6 +44,44 @@ object Day09 {
       case (File(id), index) => id * index.toLong
       case _                 => 0
     }.sum
+  }
+
+  def defragPart2(hd: HardDisk): HardDisk = {
+    // huge thanks to https://github.com/fdlk/advent-2024 ❤️
+    def defrag(hd: HardDisk, id: Int): HardDisk = {
+
+      if id < 0 then hd
+      else {
+
+        val fileStart = hd.indexOf(File(id))
+        val fileEnd = hd.lastIndexOf(File(id))
+
+        val indices: Range = hd.indices
+        val filtered: List[Int] = indices.filter(_ < fileStart).toList
+        val potFreeSlots: List[List[Int]] =
+          filtered.map(start => (fileStart to fileEnd).indices.toList.map(_ + start))
+
+        val foundSlot: Option[List[Int]] =
+          potFreeSlots.find(potFreeSlot => potFreeSlot.forall(block => hd(block) == FreeSpace()))
+
+        val defragmentedHD: Option[List[Block]] = foundSlot
+          .map(freeSlots =>
+            hd.zipWithIndex.map({
+              case (File(blockId), _) if blockId == id => FreeSpace() // replace all Files at the end with free space
+              case (_, index) if freeSlots.contains(index) => File(id) // replace the free slots with the file
+              case (block, _)                              => block
+            })
+          )
+        defrag(defragmentedHD.getOrElse(hd), id - 1)
+      }
+    }
+    val maxID = hd.map {
+      case File(id)    => id
+      case FreeSpace() => 0
+    }.max
+
+    defrag(hd, maxID)
+
   }
 
 }
