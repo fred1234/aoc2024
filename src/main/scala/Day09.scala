@@ -72,6 +72,7 @@ object Day09 {
               case (block, _)                              => block
             })
           )
+        println(s"going to id: ${id - 1}")
         defrag(defragmentedHD.getOrElse(hd), id - 1)
       }
     }
